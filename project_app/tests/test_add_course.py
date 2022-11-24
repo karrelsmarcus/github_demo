@@ -14,8 +14,7 @@ class add_course(TestCase):
         resp = self.test_client.post("/landing", {"course page": True}, follow=True)
         course_resp = self.test_client.post("/course", {"name": "name", "number": "301", "section": "000"}, follow=True)
         self.assertEqual(course_resp.context["name"], "name", "new course name should exist in context")
-        self.assertEqual(course_resp.context["number", "301", "new course number should exist in context"])
+        self.assertEqual(course_resp.context["number"], "301", "new course number should exist in context")
         self.assertEqual(course_resp.context["section"], "000", "new course section should exist in context")
 class add_course_defects(TestCase):
-
 

@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import supervisor
+from .models import supervisor, instructor, course
 
 
 # Create your views here.
 class login_page(View):
     def get(self, request):
-        pass
+        return render(request, "loginPage.html", {})
 
     def post(self, request):
         pass
@@ -14,7 +14,7 @@ class login_page(View):
 
 class landing_page(View):
     def get(self, request):
-        pass
+        return render(request, 'landingPage.html', {})
 
     def post(self, request):
         pass
@@ -22,7 +22,7 @@ class landing_page(View):
 
 class courses_page(View):
     def get(self, request):
-        pass
+        return render(request, 'loginPage.html', {})
 
     def post(self, request):
         pass

@@ -1,0 +1,49 @@
+html{
+  height: 100%;
+  width: 100%;
+  background-color:lightgray;
+  align-: center;
+}
+
+body{
+  background-color: white;
+  padding: 10px;
+  width: 75%;
+  text-align: center;
+  border: 3px solid black;
+  margin: auto;
+  width: 50%;
+
+}
+
+h1{
+  text-align: center;
+}
+
+label{
+  text-align: center;
+}
+
+.button{
+  background-color: limegreen;
+  color: white;
+  border: none;
+  padding: 10px;
+}
+
+.button:hover{
+  opacity: 0.8;
+}
+
+.bbutton{
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 10px;
+}
+
+.bbutton:hover{
+  opacity: 0.8;
+}
+
+

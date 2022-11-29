@@ -6,7 +6,7 @@ from .models import supervisor
 # Create your views here.
 class login_page(View):
     def get(self, request):
-        pass
+        return render(request, "home.html", {})
 
     def post(self, request):
         pass

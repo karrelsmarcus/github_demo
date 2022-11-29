@@ -4,9 +4,11 @@ from django.shortcuts import redirect
 class login_page:
 
     valid_login = False
+    user_name = ""
+    password = ""
+
     def validate_login(self, user_name, password):
         pass
-
 
 
 class courses_page:

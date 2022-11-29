@@ -1,14 +1,15 @@
-
 from project_app.page import login_page
 import unittest
+from django.test import TestCase, Client
+from project_app.models import supervisor, course
 
 
 class test_login(unittest.TestCase):
 
     def setUp(self):
-        user_name = "jeny"
-        password = "ilovedogs"
-        user = {user_name: [password]}
+        self.test_client = Client()
+        temp = supervisor(name="jeny", password="ilovedogs", user_id=0)
+        temp.save()
 
     def test_login_valid(self):
         user_name = "jeny"

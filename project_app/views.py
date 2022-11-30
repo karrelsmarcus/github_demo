@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .page import *
 from .models import *
 
 
@@ -42,6 +41,9 @@ class landing_page(View):
     def post(self, request):
         pass
 
+    def get_options(self, user_id):
+        pass
+
 
 class courses_page(View):
     def get(self, request):
@@ -49,3 +51,13 @@ class courses_page(View):
 
     def post(self, request):
         pass
+
+    def get_courses(self, user_name):
+        pass
+
+    def create_course(self, course_name, section, number, inst):
+        pass
+
+    def assign_instructor(self, section, inst):
+        pass
+

@@ -1,13 +1,9 @@
 from django.shortcuts import redirect
+from project_app.models import supervisor, course
 
+class landing_page:
 
-class login_page:
-
-    valid_login = False
-    user_name = ""
-    password = ""
-
-    def validate_login(self, user_name, password):
+    def get_options(self, user_name):
         pass
 
 
@@ -20,6 +16,3 @@ class courses_page:
 
     def assign_instructor(self, course_number, instructor_name):
         pass
-
-
-

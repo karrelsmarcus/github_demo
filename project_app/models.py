@@ -20,4 +20,4 @@ class course(models.Model):
     number = models.CharField(max_length=3)
     section = models.CharField(max_length=3)
     instructor = models.ForeignKey(instructor, on_delete=models.CASCADE)
-    supervisor = models.ForeignKey(supervisor, on_delete=models.CASCADE)
+    owner = models.ForeignKey(supervisor, on_delete=models.CASCADE)

@@ -1,6 +1,5 @@
 import project_app.views
 from project_app.views import login_page
-import unittest
 from django.test import TestCase, Client
 from project_app.models import supervisor, course
 

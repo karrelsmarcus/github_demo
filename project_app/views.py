@@ -12,7 +12,7 @@ class login_page(View):
         name = request.POST['name']
         password = request.POST['password']
 
-        valid = login_page.validate_login(self, name, password)
+        valid = self.validate_login(name, password)
 
         if valid:
             request.session["name"] = name
@@ -35,13 +35,15 @@ class login_page(View):
 
 
 class landing_page(View):
+
+    options = {"0": "landingPage.html",
+               "1": "landingPage_instructor.html"}
+
     def get(self, request):
-        return render(request, 'landingPage.html', {})
+        u = supervisor.objects.get(name=request.session["name"])
+        return render(request, self.options.get(u.user_id), {})
 
     def post(self, request):
-        pass
-
-    def get_options(self, user_id):
         pass
 
 

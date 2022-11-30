@@ -7,6 +7,9 @@
   <title>Course</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
+<form action="/create/" method="post">
+    {% csrf_token %}
+</form>
 
 <body>
     <h1>Add Course</h1>

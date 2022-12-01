@@ -16,16 +16,18 @@
     {% csrf_token %}
 </form>
 
-<body class="center">
-    <h1>Add Course</h1>
+<body class="text-center">
+  <div class="container-fluid p-3 my-3 bg-warning text-dark">
+        <h1>Add Course</h1>
+  </div>
     <label for="cname"> <b>Course Name:</b></label><br>
     <input type="text" placeholder="Enter Coursename" name="cname"><br><br>
     <label for="cnum"> <b>Course Number:</b></label><br>
     <input type="text" placeholder="Enter Course Number" name="cnum"><br><br>
     <label for="snum"> <b>Section Number:</b></label><br>
     <input type="text" placeholder="Enter Section Number" name="snum"><br><br>
-    <input type="submit" class="button" value="Add Course">
-  <button onclick="document.location = 'index.html'" class="bbutton">Back</button>
+  <input class="btn btn-primary" type="submit" value="Add Course">
+  <a href="/home/" class="btn btn-primary">back</a>
 </body>
 
 </html>

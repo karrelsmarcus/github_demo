@@ -6,12 +6,17 @@
   <meta name="viewport" content="width=device-width">
   <title>Course</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
+    <style>
+        .center{
+            margin: auto;
+        }
+    </style>
 </head>
 <form action="/create/" method="post">
     {% csrf_token %}
 </form>
 
-<body>
+<body class="center">
     <h1>Add Course</h1>
     <label for="cname"> <b>Course Name:</b></label><br>
     <input type="text" placeholder="Enter Coursename" name="cname"><br><br>

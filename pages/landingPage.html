@@ -11,29 +11,28 @@
 </head>
 </head>
 
-<body>
-<div class="container-fluid p-3 my-3 bg-dark text-white">
-<h1>UWM Landing Page</h1>
-</div>
-<div class="container-fluid">
-<form action="/home/" method="post">
-    {% csrf_token %}
-</form>
+<div class="bg-image"
+     style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');
+            height: 100vh">
+   <div class="container-fluid p-3 my-3 bg-warning text-dark">
+        <h1>UWM Landing Page</h1>
+    </div>
+  <div class="container-fluid">
+        <form action="/home/" method="post">
+             {% csrf_token %}
+        </form>
 
-    <div class="row">
-{#        <div class="col-sm-4" style="background-color: lightyellow;">view courses</div>#}
-{#        <div class="col-sm-4" style="background-color: lightgrey;">create course</div>#}
-        <ul class="nav nav-pills">
-              <li class="nav-item">
-                <a href="/create/" class="btn btn-primary">create course</a>
-              </li>
-              <li class="nav-item">
-                <a href="/courses/" class="btn btn-primary">view courses</a>
-              </li>
-        </ul>
+        <div class="row">
+            <ul class="nav nav-pills">
+                 <li class="nav-item">
+                    <a href="/create/" class="btn btn-dark">create course</a>
+                </li>
+                 <li class="nav-item">
+                 <a href="/courses/" class="btn btn-warning">view courses</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
-
-</div>
-</body>
 </html>
+

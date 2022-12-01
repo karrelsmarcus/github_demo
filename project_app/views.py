@@ -8,7 +8,6 @@ class login_page(View):
         return render(request, "loginPage.html", {})
 
     def post(self, request):
-
         name = request.POST['name']
         password = request.POST['password']
 
@@ -44,12 +43,22 @@ class landing_page(View):
         return render(request, self.options.get(u.user_id), {})
 
     def post(self, request):
+        # u = supervisor.objects.get(name=request.POST['name'])
+        # p = supervisor.objects.get(password=request.POST['password'])
+        # return redirect("/home/")
         pass
 
 
 class courses_page(View):
     def get(self, request):
         return render(request, 'addCourse.html', {"courses": self.get_courses(request.session["name"])})
+
+    def post(self, request):
+        pass
+
+class add_courses_page(View):
+    def get(self, request):
+        return render(request, "addCourse.html", {})
 
     def post(self, request):
         sup = request.session["name"]

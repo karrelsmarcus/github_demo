@@ -51,7 +51,7 @@ class landing_page(View):
 
 class courses_page(View):
     def get(self, request):
-        return render(request, "viewCourse.html", {})
+        return render(request, 'addCourse.html', {"courses": self.get_courses(request.session["name"])})
 
     def post(self, request):
         pass
@@ -61,14 +61,20 @@ class add_courses_page(View):
         return render(request, "addCourse.html", {})
 
     def post(self, request):
-        pass
+        sup = request.session["name"]
+        resp = request.POST.get("Add Course")
+        if resp != '':
+            self.create_course(request.POST.get("cname"), request.POST.get("cnum"), request.POST.get("snum"), None, sup)
+        courses = list(map(str, course.objects.filter(owner__name=sup)))
+        return render(request, "addCourse.html", {"courses": self.get_courses(sup)})
 
     def get_courses(self, user_name):
-        pass
+        return list(map(str, course.objects.filter(owner__name=user_name)))
 
-    def create_course(self, course_name, section, number, inst):
-        pass
+    def create_course(self, course_name, number, section, inst, owner):
+        new_course = course(name=course_name, number=number, section=section,
+                            instructor=inst, owner=supervisor.objects.get(name=owner))
+        new_course.save()
 
     def assign_instructor(self, section, inst):
         pass
-

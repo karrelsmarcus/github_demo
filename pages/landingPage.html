@@ -27,11 +27,37 @@
                  <li class="nav-item">
                     <a href="/create/" class="btn btn-dark">create course</a>
                 </li>
-                 <li class="nav-item">
-                 <a href="/courses/" class="btn btn-warning">view courses</a>
-                </li>
+{#                 <li class="nav-item">#}
+{#                 <a href="/courses/" class="btn btn-warning">view courses</a>#}
+{#                </li>#}
             </ul>
         </div>
+        <br>
+        <body>
+            <body>
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">course name</th>
+                      <th scope="col">section</th>
+                      <th scope="col">lab</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                        {% for i in courses %}
+                            {{ i }}
+                        {% endfor %}
+                      <th scope="row">1</th>
+                      <td>{{ i.0 }}</td>
+                      <td>{{ i.1 }}</td>
+                      <td>{{ i.3 }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </body>
+        </body>
     </div>
 </div>
 </html>

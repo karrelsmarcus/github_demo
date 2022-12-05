@@ -67,12 +67,23 @@ class courses_page(View):
     def post(self, request):
         pass
 
+
+
 class add_courses_page(View):
     def get(self, request):
+
+        # name = str(request.GET["cname"])
+        # ncourse = int(request.GET["cnum"])
+        # section = int(request.GET["snum"])
+
         return render(request, "addCourse.html", {})
 
     def post(self, request):
-        pass
+        name = request.POST["cname"]
+        ncourse = request.POST["cnum"]
+        section = request.POST["snum"]
+        return render(request, "landingPage.html", {"name": name, "ncourse": ncourse, "snum": section})
+        # pass
 
     def get_courses(self, user_name):
         pass

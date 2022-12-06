@@ -76,3 +76,24 @@ class add_courses_page(View):
         new_course = course(name=course_name, number=number, section=section,
                             owner=owner)
         new_course.save()
+
+class add_section_page(View):
+    def get(self, request):
+        return render(request, "addSection.html", {})
+
+
+    def post(self, request):
+        pass
+        # sup = MyUser.objects.get(name=request.session["name"])
+        # resp = request.POST.get("Add Course")
+        #
+        # if resp != '':
+        #     self.create_course(request.POST.get("cname"), request.POST.get("cnum"), request.POST.get("snum"), sup)
+        #
+        # return render(request, "addCourse.html", {})
+
+    def create_section(self, course_name, number, section, owner):
+        pass
+        # new_course = course(name=course_name, number=number, section=section,
+        #                     owner=owner)
+        # new_course.save()

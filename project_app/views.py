@@ -23,7 +23,7 @@ class login_page(View):
         no_user = False
         bad_password = False
         try:
-            u = supervisor.objects.get(name=user_name)
+            u = MyUser.objects.get(name=user_name)
             bad_password = (u.password != password)
         except:
             no_user = True
@@ -34,41 +34,45 @@ class login_page(View):
 
 
 class landing_page(View):
-
     options = {"0": "landingPage.html",
                "1": "landingPage_instructor.html"}
 
     def get(self, request):
-        u = supervisor.objects.get(name=request.session["name"])
-        return render(request, self.options.get(u.user_id), {})
+        u = MyUser.objects.get(name=request.session['name'])
+        courses = self.get_courses(u)
+        return render(request, self.options.get(u.user_id), {"courses": courses})
 
     def post(self, request):
-        # u = supervisor.objects.get(name=request.POST['name'])
-        # p = supervisor.objects.get(password=request.POST['password'])
-        # return redirect("/home/")
-        pass
+        resp = request.POST.get("create")
+        if resp != '':
+            return render(request, 'addCourse.html', {})
 
+    def get_courses(self, user_name):
+        courses = list(course.objects.filter(owner=user_name))
+        c = []
+        for i in courses:
+            name = i._meta.get_field('name')
+            number = i._meta.get_field('number')
+            section = i._meta.get_field('section')
+            c.append([name.value_from_object(i), number.value_from_object(i), section.value_from_object(i)])
 
-class courses_page(View):
-    def get(self, request):
-        return render(request, "viewCourse.html", {})
+        return c
 
-    def post(self, request):
-        pass
 
 class add_courses_page(View):
     def get(self, request):
         return render(request, "addCourse.html", {})
 
     def post(self, request):
-        pass
+        sup = MyUser.objects.get(name=request.session["name"])
+        resp = request.POST.get("Add Course")
 
-    def get_courses(self, user_name):
-        pass
+        if resp != '':
+            self.create_course(request.POST.get("cname"), request.POST.get("cnum"), request.POST.get("snum"), sup)
 
-    def create_course(self, course_name, section, number, inst):
-        pass
+        return render(request, "addCourse.html", {})
 
-    def assign_instructor(self, section, inst):
-        pass
-
+    def create_course(self, course_name, number, section, owner):
+        new_course = course(name=course_name, number=number, section=section,
+                            owner=owner)
+        new_course.save()

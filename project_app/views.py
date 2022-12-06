@@ -8,29 +8,34 @@ class login_page(View):
         return render(request, "loginPage.html", {})
 
     def post(self, request):
-        name = request.POST['name']
-        password = request.POST['password']
-
-        valid = self.validate_login(name, password)
-
-        if valid:
-            request.session["name"] = name
-            return redirect("/home/")
-        else:
-            return render(request, "loginPage.html", {"message": "invalid login credentials"})
+        # this is for bypassing the log in
+         return redirect("/home/")
+        # name = request.POST['name']
+        # password = request.POST['password']
+        #
+        # valid = self.validate_login(name, password)
+        #
+        # if valid:
+        #     request.session["name"] = name
+        #     return redirect("/home/")
+        # else:
+        #     return render(request, "loginPage.html", {"message": "invalid login credentials"})
 
     def validate_login(self, user_name, password):
-        no_user = False
-        bad_password = False
-        try:
-            u = supervisor.objects.get(name=user_name)
-            bad_password = (u.password != password)
-        except:
-            no_user = True
-        if no_user or bad_password:
-            return False
-        else:
-            return True
+        # no_user = False
+        # bad_password = False
+        # try:
+        #     u = supervisor.objects.get(name=user_name)
+        #     bad_password = (u.password != password)
+        # except:
+        #     no_user = True
+        # if no_user or bad_password:
+        #     return False
+        # else:
+        #     return True
+
+        # this is for bypassing the log in
+        pass
 
 
 class landing_page(View):
@@ -52,11 +57,20 @@ class landing_page(View):
         return list(map(str, course.objects.filter(owner__name=user_name)))
 
 
+
+
+
 class add_courses_page(View):
     def get(self, request):
+
+        # name = str(request.GET["cname"])
+        # ncourse = int(request.GET["cnum"])
+        # section = int(request.GET["snum"])
+
         return render(request, "addCourse.html", {})
 
     def post(self, request):
+
         sup = request.session["name"]
         resp = request.POST.get("Add Course")
         resp1 = request.POST.get("bbutton")

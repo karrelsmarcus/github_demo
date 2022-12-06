@@ -23,4 +23,4 @@ urlpatterns = [
     path('home/', landing_page.as_view()),
     path('courses/', courses_page.as_view()),
     path('create/', add_courses_page.as_view())
-
+]

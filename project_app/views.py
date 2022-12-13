@@ -23,7 +23,7 @@ class login_page(View):
         no_user = False
         bad_password = False
         try:
-            u = MyUser.objects.get(name=user_name)
+            u = MyUser.objects.get(user_name=user_name)
             bad_password = (u.password != password)
         except:
             no_user = True
@@ -38,41 +38,70 @@ class landing_page(View):
                "1": "landingPage_instructor.html"}
 
     def get(self, request):
-        u = MyUser.objects.get(name=request.session['name'])
+        u = MyUser.objects.get(user_name=request.session['name'])
         courses = self.get_courses(u)
-        return render(request, self.options.get(u.user_id), {"courses": courses})
+        return render(request, "landingPage.html", {"name": u.user_name, "courses": courses})
 
     def post(self, request):
         resp = request.POST.get("create")
+        u = MyUser.objects.get(user_name=request.session['name'])
         if resp != '':
-            return render(request, 'addCourse.html', {})
+            return render(request, 'addCourse.html', {"name": u.user_name})
 
     def get_courses(self, user_name):
-        courses = list(course.objects.filter(owner=user_name))
-        c = []
-        for i in courses:
-            name = i._meta.get_field('name')
-            number = i._meta.get_field('number')
-            section = i._meta.get_field('section')
-            c.append([name.value_from_object(i), number.value_from_object(i), section.value_from_object(i)])
+        try:
+            courses = list(course.objects.filter(owner=user_name))
+            return courses
+        except() as e:
+            return None
 
-        return c
 
 
 class add_courses_page(View):
     def get(self, request):
-        return render(request, "addCourse.html", {})
+        u = MyUser.objects.get(user_name=request.session['name'])
+        return render(request, "addCourse.html", {"name": u.user_name})
 
     def post(self, request):
-        sup = MyUser.objects.get(name=request.session["name"])
+        sup = MyUser.objects.get(user_name=request.session["name"])
         resp = request.POST.get("Add Course")
+        resp1 = request.POST.get("back")
 
         if resp != '':
-            self.create_course(request.POST.get("cname"), request.POST.get("cnum"), request.POST.get("snum"), sup)
+            c = self.create_course(request.POST.get("cname"), request.POST.get("cnum"), sup)
 
-        return render(request, "addCourse.html", {})
+        if resp1 != '':
+            return redirect("/home/")
 
-    def create_course(self, course_name, number, section, owner):
-        new_course = course(name=course_name, number=number, section=section,
-                            owner=owner)
-        new_course.save()
+        return render(request, "addCourse.html", {"name": sup.user_name})
+
+    def create_course(self, course_name, number, owner):
+
+        try:
+            name = course.objects.get(name=course_name)
+
+            if name is not None:
+                return False
+        except:
+            if len(number) > 3 or len(course_name) > 50 or owner is None:
+                return False
+
+            new_course = course(name=course_name, number=number,
+                                owner=owner)
+            new_course.save()
+            return True
+
+        return False
+
+
+class add_section_page(View):
+    def get(self, request):
+        return render(request, "addSection.html", {'name': request.session['name']})
+
+    def post(self, request):
+        try:
+            c = course.objects.get(request.POST.get("course"))
+            u = MyUser.objects.get()
+
+        except() as e:
+            pass

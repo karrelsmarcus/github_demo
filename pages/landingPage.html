@@ -27,7 +27,11 @@
         <div class="row">
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <a href="/create/" class="btn btn-dark">create course</a>
+                    <form action="/home/" method="post">
+                        {% csrf_token %}
+                        <input type="submit" name="create" value="create course">
+
+                    </form>
                 </li>
 {#                <li class="nav-item">#}
 {#                <a href="/courses/" class="btn btn-warning">view courses</a>#}
@@ -40,18 +44,16 @@
                   <thead class="thead-light">
                     <tr>
                       <th scope="col">course name</th>
-                      <th scope="col">section</th>
-                      <th scope="col">lab</th>
+                      <th scope="col">number</th>
                     </tr>
                   </thead>
                   <tbody>
-                        {% for i in courses %}
-                            <tr>
-                                <td> {{ i.0 }} </td>
-                                <td>{{ i.1 }}</td>
-                                <td>{{ i.2 }}</td>
-                            </tr>
-                        {% endfor %}
+                    {% for i in courses %}
+                        <tr>
+                            <td>{{ i.get_name }}</td>
+                            <td>{{ i.get_number }}</td>
+                        </tr>
+                    {% endfor %}
                   </tbody>
                 </table>
         </body>

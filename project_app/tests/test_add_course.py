@@ -1,25 +1,33 @@
 from django.test import TestCase, Client
-from project_app.models import supervisor, course
+from project_app.models import MyUser, course
 
 
 # Create your tests here.
 class add_course(TestCase):
 
+    temp = None
+
     def setUp(self):
         self.test_client = Client()
-        temp = supervisor(name="test_sup", password="test_password")
-        temp.save()
+        self.temp = MyUser(name="test_sup", password="test_password", user_id='0')
+        self.temp.save()
 
-    def test_add_course(self):
-        resp = self.test_client.post("/", {"name": "test_sup", "password": "test_password"}, follow=True)
-        resp = self.test_client.post("/landing", {"course page": True}, follow=True)
-        course_resp = self.test_client.post("/course", {"name": "name", "number": "301", "section": "000"}, follow=True)
-        self.assertEqual(course_resp.context["name"], "name", "new course name should exist in context")
-        self.assertEqual(course_resp.context["number"], "301", "new course number should exist in context")
-        self.assertEqual(course_resp.context["section"], "000", "new course section should exist in context")
+    def test_add_course_template(self):
+        self.test_client.post("/", {"name": "test_sup", "password": "test_password"}, follow=True)
+        course_resp = self.test_client.post("/create", {"name": self.temp.name, "cname": "name", "cnum": "301", "snum": "000"}, follow=True)
+        self.assertTemplateUsed(course_resp, "addCourse.html")
 
+    def test_add_course_back_template(self):
+        self.test_client.post("/", {"name": "test_sup", "password": "test_password"}, follow=True)
+        self.test_client.post("/create", {"back": "back"}, follow=True)
+        self.assertTemplateUsed("landingPage.html")
 
-class add_course_defects(TestCase):
-
-    def test_add_course_confirm(self):
-        pass
+    def test_add_course_get(self):
+        self.test_client.post("/", {"name": "test_sup", "password": "test_password"}, follow=True)
+        self.test_client.post("/home", {"create": "create course"}, follow=True)
+        self.test_client.post("/create", {"name": self.temp.name, "cname": "name", "cnum": "301",
+                                          "snum": "000", "add": "Add Course"}, follow=True)
+        self.test_client.post("/create", {"back": "back"}, follow=True)
+        resp = self.test_client.get("/home", {"name": self.temp.name})
+        temp = resp.context["courses"]
+        self.assertEqual(type(temp), list, msg="should return list of courses")

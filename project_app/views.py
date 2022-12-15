@@ -49,7 +49,7 @@ class landing_page(View):
         return render(request, self.options.get(u.permission), {"name": u.user_name, "user": u})
 
     def post(self, request):
-        resp = request.POST.get("create")
+        resp = request.POST.get("view_courses")
         resp1 = request.POST.get("logout")
         u = MyUser.objects.get(user_name=request.session['name'])
 
@@ -57,7 +57,7 @@ class landing_page(View):
             return render(request, 'loginPage.html', {})
 
         if resp:
-            return render(request, 'addCourse.html', {"name": u.user_name})
+            return redirect("/courses/")
 
 
 class view_courses_page(View):
@@ -65,30 +65,31 @@ class view_courses_page(View):
     def get(self, request):
         u = MyUser.objects.get(user_name=request.session['name'])
         courses = self.get_courses(u)
+        print(courses)
         return render(request, 'viewCourse.html', {"name": u.user_name, "courses": courses})
 
     def post(self, request):
         u = MyUser.objects.get(user_name=request.session['name'])
-        resp = request.POST.get("create")
+        resp = request.POST.get("create_course")
         resp1 = request.POST.get("back")
 
         if resp1:
             return redirect("/home/")
 
         if resp:
-            return render(request, 'addCourse.html', {"name": u.user_name})
+            return redirect("/create/")
 
-    def get_courses(self, user_name):
+    def get_courses(self, user):
         """""Returns list of courses associated with current user
 
-        :param user_name: the model of the current user
+        :param user: the model of the current user
         :rtype: list
         :return: None when no courses associated to user
                  List of courses associated to user
         """""
 
         try:
-            courses = list(course.objects.filter(owner=user_name))
+            courses = list(course.objects.filter(owner=user))
             return courses
         except() as e:
             return None
@@ -101,14 +102,16 @@ class add_courses_page(View):
 
     def post(self, request):
         sup = MyUser.objects.get(user_name=request.session["name"])
-        resp = request.POST.get("Add Course")
+        print(sup.user_name)
+        resp = request.POST.get("add_course")
         resp1 = request.POST.get("back")
 
-        if resp != '':
+        if resp:
             c = self.create_course(request.POST.get("cname"), request.POST.get("cnum"), sup)
+            print(c)
 
-        if resp1 != '':
-            return redirect("/home/")
+        if resp1:
+            return redirect("/courses/")
 
         return render(request, "addCourse.html", {"name": sup.user_name})
 
@@ -147,5 +150,7 @@ class add_section_page(View):
         try:
             c = course.objects.get(request.POST.get("course"))
             u = MyUser.objects.get()
+        except:
+            pass
 
 

@@ -15,7 +15,7 @@ class landing_page_test(TestCase):
         self.landing_page = project_app.views.landing_page()
         self.sup = MyUser(user_name="test_sup", password="test_sup", permission=MyUser.SUP)
         self.sup.save()
-        self.instructor = MyUser(user_name="test", password="test", permission=MyUser.PROF)
+        self.instructor = MyUser(user_name="test", password="test", permission=MyUser.INS)
         self.sup.save()
         self.invalid = MyUser(user_name="test2", password="test2", permission=MyUser.TA)
 

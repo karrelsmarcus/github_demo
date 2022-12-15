@@ -23,10 +23,11 @@ class login_page(View):
         """""Validates credentials of user attempting to log in
         
         :param user_name: the user name of the user attempting to log in
-               password: the password of a user attempting to log in
+        :param password: the password of a user attempting to log in
         :rtype: boolean
         :return: false if user login is invalid, true if it is
         """""
+
         no_user = False
         bad_password = False
         try:
@@ -49,7 +50,7 @@ class landing_page(View):
         return render(request, self.options.get(u.permission), {"name": u.user_name, "user": u})
 
     def post(self, request):
-        resp = request.POST.get("create")
+        resp = request.POST.get("view_course")
         resp1 = request.POST.get("logout")
         u = MyUser.objects.get(user_name=request.session['name'])
 
@@ -57,7 +58,7 @@ class landing_page(View):
             return render(request, 'loginPage.html', {})
 
         if resp:
-            return render(request, 'addCourse.html', {"name": u.user_name})
+            return render(request, 'viewCourse.html', {"name": u.user_name})
 
 
 class view_courses_page(View):

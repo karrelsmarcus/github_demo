@@ -9,25 +9,20 @@ class add_course(TestCase):
 
     def setUp(self):
         self.test_client = Client()
-        self.temp = MyUser(name="test_sup", password="test_password", user_id='0')
+        self.temp = MyUser(user_name="test_sup", password="test_password", permission=MyUser.SUP)
         self.temp.save()
+        self.test_client.post("/", {"name": "test_sup", "password": "test_password"}, follow=True)
 
     def test_add_course_template(self):
-        self.test_client.post("/", {"name": "test_sup", "password": "test_password"}, follow=True)
-        course_resp = self.test_client.post("/create", {"name": self.temp.name, "cname": "name", "cnum": "301", "snum": "000"}, follow=True)
+        course_resp = self.test_client.post("/create", {"name": self.temp.user_name, "cname": "name", "cnum": "301"}, follow=True)
         self.assertTemplateUsed(course_resp, "addCourse.html")
 
     def test_add_course_back_template(self):
-        self.test_client.post("/", {"name": "test_sup", "password": "test_password"}, follow=True)
         self.test_client.post("/create", {"back": "back"}, follow=True)
         self.assertTemplateUsed("landingPage.html")
 
-    def test_add_course_get(self):
-        self.test_client.post("/", {"name": "test_sup", "password": "test_password"}, follow=True)
-        self.test_client.post("/home", {"create": "create course"}, follow=True)
-        self.test_client.post("/create", {"name": self.temp.name, "cname": "name", "cnum": "301",
-                                          "snum": "000", "add": "Add Course"}, follow=True)
-        self.test_client.post("/create", {"back": "back"}, follow=True)
-        resp = self.test_client.get("/home", {"name": self.temp.name})
-        temp = resp.context["courses"]
-        self.assertEqual(type(temp), list, msg="should return list of courses")
+    def test_add_course_database(self):
+        self.test_client.post("/create", {"name": self.temp.user_name, "cname": "name", "cnum": "301"}, follow=True)
+        self.assertEqual("name", course.objects.get(number="301").get_name(), msg="Course should be added to database")
+
+

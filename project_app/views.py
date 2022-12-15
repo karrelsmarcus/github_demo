@@ -97,3 +97,10 @@ class add_section_page(View):
         # new_course = course(name=course_name, number=number, section=section,
         #                     owner=owner)
         # new_course.save()
+class view_courses_page(View):
+    def get(self, request):
+        return render(request, "viewCourse.html", {})
+
+
+    def post(self, request):
+        pass

@@ -20,6 +20,13 @@ class login_page(View):
             return render(request, "loginPage.html", {"message": "invalid login credentials"})
 
     def validate_login(self, user_name, password):
+        """""Validates credentials of user attempting to log in
+        
+        :param user_name: the user name of the user attempting to log in
+               password: the password of a user attempting to log in
+        :rtype: boolean
+        :return: false if user login is invalid, true if it is
+        """""
         no_user = False
         bad_password = False
         try:
@@ -34,27 +41,57 @@ class login_page(View):
 
 
 class landing_page(View):
-    options = {"0": "landingPage.html",
-               "1": "landingPage_instructor.html"}
+    options = {MyUser.SUP: "landingPage.html",
+               MyUser.INS: "landingPage_instructor.html"}
+
+    def get(self, request):
+        u = MyUser.objects.get(user_name=request.session['name'])
+        return render(request, self.options.get(u.permission), {"name": u.user_name, "user": u})
+
+    def post(self, request):
+        resp = request.POST.get("create")
+        resp1 = request.POST.get("logout")
+        u = MyUser.objects.get(user_name=request.session['name'])
+
+        if resp1:
+            return render(request, 'loginPage.html', {})
+
+        if resp:
+            return render(request, 'addCourse.html', {"name": u.user_name})
+
+
+class view_courses_page(View):
 
     def get(self, request):
         u = MyUser.objects.get(user_name=request.session['name'])
         courses = self.get_courses(u)
-        return render(request, "landingPage.html", {"name": u.user_name, "courses": courses})
+        return render(request, 'viewCourse.html', {"name": u.user_name, "courses": courses})
 
     def post(self, request):
-        resp = request.POST.get("create")
         u = MyUser.objects.get(user_name=request.session['name'])
-        if resp != '':
+        resp = request.POST.get("create")
+        resp1 = request.POST.get("back")
+
+        if resp1:
+            return redirect("/home/")
+
+        if resp:
             return render(request, 'addCourse.html', {"name": u.user_name})
 
     def get_courses(self, user_name):
+        """""Returns list of courses associated with current user
+
+        :param user_name: the model of the current user
+        :rtype: list
+        :return: None when no courses associated to user
+                 List of courses associated to user
+        """""
+
         try:
             courses = list(course.objects.filter(owner=user_name))
             return courses
         except() as e:
             return None
-
 
 
 class add_courses_page(View):
@@ -76,6 +113,14 @@ class add_courses_page(View):
         return render(request, "addCourse.html", {"name": sup.user_name})
 
     def create_course(self, course_name, number, owner):
+        """""Creates and adds a new course to the database, returns boolean
+        
+        :param course_name: the name of the course to be added, must be unique 
+        :param number: the number of a course to be added, must be unique
+        :param owner: the user object who is the owner of the course
+        :rtype: boolean
+        :return: true if course is added, false if it is not
+        """""
 
         try:
             name = course.objects.get(name=course_name)

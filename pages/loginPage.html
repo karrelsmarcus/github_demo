@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login</title>
 
+
     <style>
         header{
     background-color: gold;
@@ -16,7 +17,7 @@
         background: url('https://www.visitmilwaukee.org/remote.jpg.ashx?mode=crop&width=1920&height=1080&scale=both&urlb64=aHR0cDovL2Fzc2V0cy5zaW1wbGV2aWV3aW5jLmNvbS9zaW1wbGV2aWV3L2ltYWdlL3VwbG9hZC9jX2ZpdCx3XzE5MjAsaF8xMDgwL2NybS9taWx3YXVrZWUvVVdNaWx3YXVrZWUtMTI0MC00ZjdmOTA5MDUwNTZhMzZfNGY3ZjkyOTYtNTA1Ni1hMzZmLTIzMmE5ZGE3OGYwNzAxMWMuanBn&hmac=tNyU_eKVXp4');
         background-position:center;
         {#background-repeat:no-repeat;#}
-        height: 900px;
+        height: 1000px;
         align-: center;
         font-family: Arial, Helvetica, sans-serif;
 
@@ -84,6 +85,8 @@
     cursor: pointer;
     background-color: #0066CC;
     }
+
+
     </style>
 
 
@@ -111,7 +114,10 @@
             </table>
             <input type="submit" id = "button">
         </form>
-
+        <br>
+        <div class="alert alert-danger">
+           {{ message }}
+        </div>
     </div>
   </div>
 

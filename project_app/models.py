@@ -1,10 +1,6 @@
 from django.db import models
 
 
-# user_id: supervisor = 0
-#          instructor = 1
-
-
 class MyUser(models.Model):
 
     TA = 'TA'
@@ -25,6 +21,33 @@ class MyUser(models.Model):
     phone = models.CharField(max_length=15, default="")
     address = models.CharField(max_length=50, default="")
     permission = models.CharField(max_length=20, choices=user_permission, default=TA)
+
+    def get_name(self):
+        return self.first_name + ' ' + self.last_name
+
+    def set_first_name(self, first_name):
+        self.first_name = first_name
+
+    def set_last_name(self, last_name):
+        self.last_name = last_name
+
+    def get_email(self):
+        return self.email
+
+    def set_email(self, email):
+        self.email = email
+
+    def get_phone(self):
+        return self.phone
+
+    def set_phone(self, phone):
+        self.phone = phone
+
+    def get_address(self):
+        return self.address
+
+    def set_address(self, address):
+        self.address = address
 
 
 class course(models.Model):

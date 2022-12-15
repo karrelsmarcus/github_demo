@@ -148,5 +148,4 @@ class add_section_page(View):
             c = course.objects.get(request.POST.get("course"))
             u = MyUser.objects.get()
 
-        except() as e:
-            pass
+

@@ -1,37 +1,63 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Course</title>
-  <link href="style.css" rel="stylesheet" type="text/css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-</head>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width">
+      <title>Course</title>
+      <link href="style.css" rel="stylesheet" type="text/css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
+        <style>
+            .div3{
+                border-radius: 25px;
+                background-color: white;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                margin-left: 500px;
+                margin-right: 550px;
+                height: 350px;
+                width: 500px;
+            }
 
-<div class="bg-image"
-     style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');
-            height: 100vh">
-<body class="text-center">
+            .page{
+                width: 100%;
+                background: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');
+                background-position:center;
+                {#background-repeat:no-repeat;#}
+                height: 1000px;
+                align-: center;
+                {#font-family: Arial, Helvetica, sans-serif;#}
+            }
+        </style>
+    </head>
 
-<form action="/create/" method="post">{% csrf_token %}
+    <div class="page">
+{#    <div class="bg-image"#}
+{#         style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');#}
+{#                height: 100vh">#}
+        <body class="text-center">
 
-        <div class="container-fluid p-3 my-3 bg-warning text-dark">
-            <h1>Add Course</h1>
-        </div>
-        <label for="cname"> <b>Course Name:</b></label><br>
-        <input type="text" placeholder="Enter Course name" name="cname"><br><br>
-        <label for="cnum"> <b>Course Number:</b></label><br>
-        <input type="text" placeholder="Enter Course Number" name="cnum"><br><br>
-        <input type="submit" value="Add Course" name="add">
-        <input type="submit" value="back" name="back">
+            <form action="/create/" method="post">{% csrf_token %}
 
-    </form>
-</body>
-</div>
+                <div class="container-fluid p-3 my-3 bg-warning text-dark" >
+                    <h1>Add Course</h1>
+                </div>
+                <fieldset class="div3">
+                    <label for="cname"> <b>Course Name:</b></label><br>
+                    <input type="text" placeholder="Enter Course name" name="cname"><br><br>
+                    <label for="cnum"> <b>Course Number:</b></label><br>
+                    <input type="text" placeholder="Enter Course Number" name="cnum"><br><br>
+                    <label for="snum"> <b>Section Number:</b></label><br>
+                    <input type="text" placeholder="Enter Section Number" name="snum"><br><br>
+                    <input class="btn btn-primary" type="submit" value="Add Course">
+                    <a href="/courses/" class="btn btn-primary">Back</a>
+                </fieldset>
+            </form>
+        </body>
+    </div>
 </html>

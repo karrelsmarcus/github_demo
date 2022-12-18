@@ -12,6 +12,7 @@ class add_course(TestCase):
         self.temp = MyUser(user_name="test_sup", password="test_password", permission=MyUser.SUP)
         self.temp.save()
         self.test_client.post("/", {"name": "test_sup", "password": "test_password"}, follow=True)
+        self.test_client.post("/home/", {"name": "test_sup", "view_courses": "View Courses"}, follow=True)
 
     def test_add_course_template(self):
         course_resp = self.test_client.post("/create", {"name": self.temp.user_name, "cname": "name", "cnum": "301"}, follow=True)
@@ -19,7 +20,11 @@ class add_course(TestCase):
 
     def test_add_course_back_template(self):
         self.test_client.post("/create", {"back": "back"}, follow=True)
-        self.assertTemplateUsed("landingPage.html")
+        self.assertTemplateUsed("viewCourse.html")
+
+    def test_add_course_database(self):
+        self.test_client.post("/create", {"cname": "name", "cnum": "301", }, follow=True)
+        self.assertEqual("name", course.objects.get(number="301").name, msg="new course should exist in database")
 
     def test_add_course_database(self):
         self.test_client.post("/create", {"name": self.temp.user_name, "cname": "name", "cnum": "301"}, follow=True)

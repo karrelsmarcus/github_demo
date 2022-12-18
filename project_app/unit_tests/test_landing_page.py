@@ -20,11 +20,11 @@ class landing_page_test(TestCase):
         self.invalid = MyUser(user_name="test2", password="test2", permission=MyUser.TA)
 
     def test_get_options(self):
-        temp = self.landing_page.options.get(self.sup.user_id)
+        temp = self.landing_page.options.get(self.sup.permission)
         self.assertEqual(temp, 'landingPage.html', msg="Supervisor should return correct page")
 
     def test_get_options_instructor(self):
-        temp = self.landing_page.options.get(self.instructor.user_id)
+        temp = self.landing_page.options.get(self.instructor.permission)
         self.assertEqual(temp, 'landingPage_instructor.html', msg="Instructor should return correct page")
 
     def test_get_options_none(self):
@@ -32,7 +32,7 @@ class landing_page_test(TestCase):
         self.assertEqual(temp, None, msg="None should return none")
 
     def test_get_options_invalid(self):
-        temp = self.landing_page.options.get(self.invalid.user_id)
+        temp = self.landing_page.options.get(self.invalid.permission)
         self.assertEqual(temp, None, msg="Invalid user_id should return none")
 
     def test_get_options_type(self):

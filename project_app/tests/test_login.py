@@ -10,7 +10,7 @@ class test_login(TestCase):
     def setUp(self):
         self.test_client = Client()
         for i in range(5):
-            temp = MyUser(name=i, password=i, user_id=0)
+            temp = MyUser(user_name=i, password=i, permission=MyUser.SUP)
             temp.save()
 
     def test_correctname(self):

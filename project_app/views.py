@@ -154,3 +154,19 @@ class add_section_page(View):
             pass
 
 
+class account_page(View):
+    pass
+
+
+class add_account_page(View):
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
+
+    def create_account(self, user_name, password, permission, f_name="", l_name="", email="", address="", phone=""):
+        pass
+
+

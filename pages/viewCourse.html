@@ -29,10 +29,10 @@
         <div class="row">
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <form action="/home/" method="post">
+                    <form action="/courses/" method="post">
                         {% csrf_token %}
-                         <a href="/create/" class="btn btn-dark">create courses</a>
-                         <a href="/home/" class="btn btn-warning">back</a>
+                         <input type="submit" name="create_course" value="Create Course">
+                         <input type="submit" name="back" value="Back">
                     </form>
                 </li>
 {#                <li class="nav-item">#}

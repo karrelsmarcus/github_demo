@@ -153,6 +153,9 @@ class add_section_page(View):
         except:
             pass
 
+    def create_section(self, course, assignment, number, s_time, e_time):
+        pass
+
 
 class account_page(View):
     pass

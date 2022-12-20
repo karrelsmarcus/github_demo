@@ -154,22 +154,85 @@ class add_section_page(View):
             pass
 
     def create_section(self, course, assignment, number, s_time, e_time):
-        pass
+
+        try:
+            n = section.objects.get(number=number)
+            if n is not None:
+                return False
+        except:
+            if course is None or assignment is None or len(number) > 3 or len(s_time) > 20 or len(e_time) > 20:
+                return False
+
+            new_section = section(course=course, assignment=assignment, number=number,
+                                  starttime=s_time, endtime=e_time)
+            new_section.save()
+
+            return True
+
+        return False
 
 
 class account_page(View):
-    pass
+
+    def get(self, request):
+        u = MyUser.objects.get(user_name=request.session["name"])
+        a = self.get_accounts()
+        return render(request, "viewAccount.html", {'name': u.user_name, 'accounts': a})
+
+    def post(self, request):
+        resp = request.POST.get("add_account")
+        resp1 = request.POST.get("back")
+
+        if resp:
+            return redirect("/addaccount/")
+        if resp1:
+            return redirect("/home/")
+
+    def get_accounts(self):
+        try:
+            accounts = list(MyUser.objects.all())
+            return accounts
+        except() as e:
+            return None
 
 
 class add_account_page(View):
 
     def get(self, request):
-        pass
+        u = MyUser.objects.get(user_name=request.session["name"])
+        return render(request, "addAccount.html", {'name': u.user_name})
 
     def post(self, request):
-        pass
+        resp = request.POST.get("back")
+
+        if resp:
+            return redirect("/account/")
+
+        self.create_account(request.POST.get("user_name"),
+                            request.POST.get("password"),
+                            request.POST.get("permission"),
+                            request.POST.get("f_name"),
+                            request.POST.get("l_name"),
+                            request.POST.get("email"),
+                            request.POST.get("address"),
+                            request.POST.get("phone"))
 
     def create_account(self, user_name, password, permission, f_name="", l_name="", email="", address="", phone=""):
-        pass
 
+        try:
+            name = MyUser.objects.get(user_name=user_name)
 
+            if name is not None:
+                return False
+        except:
+            if len(user_name) > 20 or len(password) > 20 or len(f_name) > 20 or len(l_name) or len(email) > 50 or len(address) > 50 or len(phone) > 17:
+                return False
+
+            if permission not in (MyUser.SUP, MyUser.INS, MyUser.TA):
+                return False
+
+            new_account = MyUser(user_name=user_name, password=password, permission=permission, first_name=f_name, last_name=l_name, email=email, address=address, phone=phone)
+            new_account.save()
+            return True
+
+        return False

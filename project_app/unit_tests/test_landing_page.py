@@ -30,12 +30,7 @@ class landing_page_test(TestCase):
     def test_get_options_none(self):
         temp = self.landing_page.options.get(None)
         self.assertEqual(temp, None, msg="None should return none")
-
+        
     def test_get_options_invalid(self):
         temp = self.landing_page.options.get(self.invalid.permission)
         self.assertEqual(temp, None, msg="Invalid user_id should return none")
-
-    def test_get_options_type(self):
-        temp = self.landing_page.options.get(0)
-        self.assertEqual(temp, None, msg="Invalid type should return none")
-

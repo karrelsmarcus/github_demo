@@ -26,3 +26,8 @@ class add_course(TestCase):
         self.test_client.post("/create", {"cname": "name", "cnum": "301", }, follow=True)
         self.assertEqual("name", course.objects.get(number="301").name, msg="new course should exist in database")
 
+    def test_add_course_database(self):
+        self.test_client.post("/create", {"name": self.temp.user_name, "cname": "name", "cnum": "301"}, follow=True)
+        self.assertEqual("name", course.objects.get(number="301").get_name(), msg="Course should be added to database")
+
+

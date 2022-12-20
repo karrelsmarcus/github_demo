@@ -23,10 +23,11 @@ class login_page(View):
         """""Validates credentials of user attempting to log in
         
         :param user_name: the user name of the user attempting to log in
-               password: the password of a user attempting to log in
+        :param password: the password of a user attempting to log in
         :rtype: boolean
         :return: false if user login is invalid, true if it is
         """""
+
         no_user = False
         bad_password = False
         try:
@@ -58,6 +59,7 @@ class landing_page(View):
 
         if resp:
             return redirect("/courses/")
+
 
 
 class view_courses_page(View):

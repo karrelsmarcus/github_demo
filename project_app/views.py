@@ -24,10 +24,11 @@ class login_page(View):
         """""Validates credentials of user attempting to log in
         
         :param user_name: the user name of the user attempting to log in
-               password: the password of a user attempting to log in
+        :param password: the password of a user attempting to log in
         :rtype: boolean
         :return: false if user login is invalid, true if it is
         """""
+
         no_user = False
         bad_password = False
         try:
@@ -64,6 +65,7 @@ class landing_page(View):
 
         if resp:
             return redirect("/courses/")
+
 
 
 class view_courses_page(View):
@@ -160,30 +162,53 @@ class add_section_page(View):
             pass
 
     def create_section(self, course, assignment, number, s_time, e_time):
-        pass
+
+        try:
+            n = section.objects.get(number=number)
+            if n is not None:
+                return False
+        except:
+            if course is None or assignment is None or len(number) > 3 or len(s_time) > 20 or len(e_time) > 20:
+                return False
+
+            new_section = section(course=course, assignment=assignment, number=number,
+                                  starttime=s_time, endtime=e_time)
+            new_section.save()
+
+            return True
+
+        return False
 
 
 
-
-class view_account_page(View):
+class account_page(View):
 
     def get(self, request):
-        return render(request, 'viewAccounts.html', {})
+        u = MyUser.objects.get(user_name=request.session["name"])
+        a = self.get_accounts()
+        return render(request, "viewAccount.html", {'name': u.user_name, 'accounts': a})
 
     def post(self, request):
-        u = MyUser.objects.get(user_name=request.session['name'])
-        resp = request.POST.get("create_accounts")
+        resp = request.POST.get("add_account")
         resp1 = request.POST.get("back")
 
+        if resp:
+            return redirect("/addaccount/")
         if resp1:
             return redirect("/home/")
 
-        if resp:
-            return redirect("/createAcc/")
+    def get_accounts(self):
+        try:
+            accounts = list(MyUser.objects.all())
+            return accounts
+        except() as e:
+            return None
+
 
 class add_account_page(View):
 
     def get(self, request):
+
         return render(request, 'createAccount.html', {})
 
     def post(self, request):
@@ -202,7 +227,24 @@ class add_account_page(View):
 
         return render(request, "createAccount.html", {})
 
+
+
     def create_account(self, user_name, password, permission, f_name="", l_name="", email="", address="", phone=""):
-        pass
 
+        try:
+            name = MyUser.objects.get(user_name=user_name)
 
+            if name is not None:
+                return False
+        except:
+            if len(user_name) > 20 or len(password) > 20 or len(f_name) > 20 or len(l_name) or len(email) > 50 or len(address) > 50 or len(phone) > 17:
+                return False
+
+            if permission not in (MyUser.SUP, MyUser.INS, MyUser.TA):
+                return False
+
+            new_account = MyUser(user_name=user_name, password=password, permission=permission, first_name=f_name, last_name=l_name, email=email, address=address, phone=phone)
+            new_account.save()
+            return True
+
+        return False

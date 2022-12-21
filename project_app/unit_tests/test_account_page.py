@@ -33,3 +33,26 @@ class test_account_page(TestCase):
         self.account_page.create_account(user_name="test", password="test", permission=MyUser.INS)
         acc = self.account_page.create_account(user_name="test", password="test", permission=MyUser.INS)
         self.assertFalse(acc, msg="duplicate account should return false")
+
+
+class test_get_account(TestCase):
+
+    def setUp(self):
+        self.test_client = Client()
+        self.account_page = project_app.views.account_page()
+        self.sup = MyUser(user_name="test_sup", password="test_sup", permission=MyUser.SUP)
+        self.sup.save()
+
+        account_list = [["user_0", "pass_0", "f_name_0", "l_name_0",
+                         "email_0", "phone_0", "address_0", MyUser.INS],
+                        ["user_1", "pass_1", "f_name_1", "l_name_1",
+                         "email_1", "phone_1", "address_1", MyUser.TA]]
+
+        for i in account_list:
+            temp = MyUser(user_name=i[0], password=i[1], first_name=i[2], last_name=i[3],
+                          email=i[4], phone=i[5], address=i[6], permission=i[7])
+            temp.save()
+
+    def test_get_valid(self):
+        acc = self.account_page.get_accounts()
+        self.assertEqual(type(acc), list, msg="should return list of accounts")

@@ -5,7 +5,7 @@ from project_app.models import MyUser, course
 import unittest
 
 
-class get_courses_tests(TestCase):
+class create_courses_tests(TestCase):
     test_client = None
     course_list = None
     courses_page = None
@@ -50,9 +50,32 @@ class get_courses_tests(TestCase):
         temp = self.courses_page.create_course(name, number, self.sup)
         self.assertEqual(temp, False, msg="course number with length > 3 should return false")
 
-
     def test_no_owner(self):
         name = "tst"
         number = "tst"
         temp = self.courses_page.create_course(name, number, None)
         self.assertEqual(temp, False, msg="Should not create course with no owner")
+
+
+class get_courses_tests(TestCase):
+
+    def setUp(self):
+        self.test_client = Client()
+        self.courses_page = project_app.views.view_courses_page()
+        self.sup = MyUser(user_name="test_sup", password="test_sup", permission=MyUser.SUP)
+        self.sup.save()
+        self.course_list = [["CS", "361", self.sup],
+                            ["CS", "431", self.sup]]
+
+        for i in self.course_list:
+            course(name=i[0], number=i[1], owner=i[2]).save()
+
+    def test_get_valid(self):
+        courses = self.courses_page.get_courses(self.sup)
+        self.assertEqual(type(courses), list, msg="should return list of courses")
+
+    def test_get_invalid(self):
+        courses = self.courses_page.get_courses(None)
+        self.assertEqual(courses, [], msg="invalid user should not return any courses")
+
+

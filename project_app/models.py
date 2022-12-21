@@ -20,7 +20,7 @@ class MyUser(models.Model):
     email = models.CharField(max_length=50, default="")
     phone = models.CharField(max_length=15, default="")
     address = models.CharField(max_length=50, default="")
-    permission = models.CharField(max_length=20, choices=user_permission, default=TA)
+    permission = models.CharField(max_length=20, choices=user_permission, default=SUP)
 
     def get_name(self):
         return self.first_name + ' ' + self.last_name

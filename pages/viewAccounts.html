@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
- <title>Home</title>
+ <title>Add Accounts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
@@ -18,7 +18,7 @@
      style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');
             height: 100vh">
    <div class="container-fluid p-3 my-3 bg-warning text-dark">
-        <h1>UWM View Course Page</h1>
+        <h1>UWM View Accounts Page</h1>
    </div>
   <div class="container-fluid">
 {#        <form action="/home/" method="post">#}
@@ -27,9 +27,9 @@
         <div class="row">
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <form action="/courses/" method="post">
+                    <form action="/accounts/" method="post">
                         {% csrf_token %}
-                         <input type="submit" class="btn btn-warning" name="create_course" value="Create Course">
+                         <input type="submit" class="btn btn-warning" name="create_accounts" value="Create Account">
                          <input type="submit" class="btn btn-dark" name="back" value="Back">
                     </form>
                 </li>
@@ -43,14 +43,16 @@
                 <table class="table">
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col">course name</th>
-                      <th scope="col">number</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Phone #</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for i in courses %}
+                    {% for i in staff %}
                         <tr>
                             <td>{{ i.get_name }}</td>
+                            <td>{{ i.get_number }}</td>
                             <td>{{ i.get_number }}</td>
                         </tr>
                     {% endfor %}

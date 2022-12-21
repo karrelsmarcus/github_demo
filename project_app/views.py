@@ -18,6 +18,7 @@ class login_page(View):
             return redirect("/home/")
         else:
             return render(request, "loginPage.html", {"message": "invalid login credentials"})
+        # return render(request,'landingPage.html', {})
 
     def validate_login(self, user_name, password):
         """""Validates credentials of user attempting to log in
@@ -45,16 +46,21 @@ class landing_page(View):
                MyUser.INS: "landingPage_instructor.html"}
 
     def get(self, request):
-        u = MyUser.objects.get(user_name=request.session['name'])
-        return render(request, self.options.get(u.permission), {"name": u.user_name, "user": u})
+        # u = MyUser.objects.get(user_name=request.session['name'])
+        # return render(request, self.options.get(u.permission), {"name": u.user_name, "user": u})
+        return render(request, "landingPage.html", {})
 
     def post(self, request):
         resp = request.POST.get("view_courses")
         resp1 = request.POST.get("logout")
+        resp2 = request.POST.get("view_accounts")
         u = MyUser.objects.get(user_name=request.session['name'])
 
         if resp1:
             return render(request, 'loginPage.html', {})
+
+        if resp2:
+            return redirect("/accounts/")
 
         if resp:
             return redirect("/courses/")
@@ -63,10 +69,10 @@ class landing_page(View):
 class view_courses_page(View):
 
     def get(self, request):
-        u = MyUser.objects.get(user_name=request.session['name'])
-        courses = self.get_courses(u)
-        print(courses)
-        return render(request, 'viewCourse.html', {"name": u.user_name, "courses": courses})
+        # u = MyUser.objects.get(user_name=request.session['name'])
+        # courses = self.get_courses(u)
+        # print(courses)
+        return render(request, 'viewCourse.html', {})
 
     def post(self, request):
         u = MyUser.objects.get(user_name=request.session['name'])
@@ -157,17 +163,44 @@ class add_section_page(View):
         pass
 
 
-class account_page(View):
-    pass
 
+
+class view_account_page(View):
+
+    def get(self, request):
+        return render(request, 'viewAccounts.html', {})
+
+    def post(self, request):
+        u = MyUser.objects.get(user_name=request.session['name'])
+        resp = request.POST.get("create_accounts")
+        resp1 = request.POST.get("back")
+
+        if resp1:
+            return redirect("/home/")
+
+        if resp:
+            return redirect("/createAcc/")
 
 class add_account_page(View):
 
     def get(self, request):
-        pass
+        return render(request, 'createAccount.html', {})
 
     def post(self, request):
-        pass
+        sup = MyUser.objects.get(user_name=request.session["name"])
+        print(sup.user_name)
+        resp = request.POST.get("submit")
+        resp1 = request.POST.get("back")
+
+        if resp:
+            # c = self.create_course(request.POST.get("cname"), request.POST.get("cnum"), sup)
+            # print(c)
+            pass
+
+        if resp1:
+            return redirect("/accounts/")
+
+        return render(request, "createAccount.html", {})
 
     def create_account(self, user_name, password, permission, f_name="", l_name="", email="", address="", phone=""):
         pass

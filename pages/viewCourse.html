@@ -55,12 +55,12 @@
                   <tbody>
                     {% for i in courses %}
                         <tr>
-                            <td>{{ i.0 }}</td>
-                            <td>{{ i.1 }}</td>
-                            <td>{{ i.2 }}</td>
+                            <td>{{ i.0.name }}</td>
+                            <td>{{ i.1.number }}</td>
+                            <td>{{ i.2.number }}</td>
                             <td>{{ i.3.first_name }} {{ i.3.last_name }}</td>
-                            <td>{{ i.4 }}</td>
-                            <td> <input type="submit" class="btn btn-dark" name="delete" value="Delete"> </td>
+                            <td>{{ i.4.starttime }} - {{ i.4.endtime }}</td>
+                            <td> <a href="delete/{{ i.2.id }}">delete</a></td>
                         </tr>
                     {% endfor %}
                   </tbody>

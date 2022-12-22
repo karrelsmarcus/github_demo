@@ -56,6 +56,8 @@ class landing_page(View):
         resp = request.POST.get("view_courses")
         resp1 = request.POST.get("logout")
         resp2 = request.POST.get("view_accounts")
+        resp3 = request.POST.get("edit_profile")
+        print(resp3)
         u = MyUser.objects.get(user_name=request.session['name'])
 
         if resp1:
@@ -64,8 +66,43 @@ class landing_page(View):
         if resp2:
             return redirect("/accounts/")
 
+        if resp3:
+            return redirect("/edit/")
+
         if resp:
             return redirect("/courses/")
+
+
+class edit_account_page(View):
+
+    def get(self, request):
+        u = MyUser.objects.get(user_name=request.session['name'])
+        return render(request, "editAccount.html", {'name': u.user_name})
+
+    def post(self, request):
+        resp = request.POST.get("back")
+        resp1 = request.POST.get("confirm")
+
+        if resp1:
+            u = MyUser.objects.get(user_name=request.session['name'])
+            e = request.POST.get("email")
+            p = request.POST.get("pnum")
+            a = request.POST.get("addr")
+            print(u)
+            print(e)
+            print(p)
+            print(a)
+            self.edit_account(e, p, a, u)
+            return redirect("/home/")
+
+        if resp:
+            return redirect("/home/")
+
+    def edit_account(self, email, phone, address, user):
+        user.set_email(email)
+        user.set_phone(phone)
+        user.set_address(address)
+        user.save()
 
 
 class view_courses_page(View):
@@ -90,6 +127,11 @@ class view_courses_page(View):
         if resp0:
             return redirect("/create/")
 
+    def delete(self, request, number):
+        c = section.objects.get(number=number)
+        c.delete()
+        return redirect('/courses/')
+
     def get_courses(self, user):
         """""Returns list of courses associated with current user
 
@@ -106,10 +148,22 @@ class view_courses_page(View):
             for i in courses:
                 sections = section.objects.filter(course=i)
                 for j in sections:
-                    result.append((i.get_name(), i.get_number(), j.get_number(), j.get_assignment(), j.get_time()))
+                    result.append((i, i, j, j.assignment, j))
             return result
         except() as e:
             return None
+
+
+def delete_course(request, id):
+    c = section.objects.get(id=id)
+    c.delete()
+    return redirect('/courses/')
+
+
+def delete_account(request, id):
+    a = MyUser.objects.get(id=id)
+    a.delete()
+    return redirect('/accounts/')
 
 
 class add_courses_page(View):
@@ -245,11 +299,8 @@ class view_account_page(View):
 
     def get_accounts(self):
         try:
-            result = []
             accounts = list(MyUser.objects.all())
-            for i in accounts:
-                result.append((i.get_name(), i.get_email(), i.get_phone()))
-            return result
+            return accounts
         except() as e:
             return None
 
@@ -266,15 +317,13 @@ class add_account_page(View):
 
         if resp:
             user_name = request.POST.get("user_name")
-            print(user_name)
             pw = request.POST.get("password")
-            print(pw)
             pw1 = request.POST.get("password1")
-            print(pw1)
             perm = request.POST.get("permission")
-            print(perm)
+            fname = request.POST.get("first_name")
+            lname = request.POST.get("last_name")
 
-            c = self.create_account(user_name, pw, pw1, perm)
+            c = self.create_account(user_name, pw, pw1, perm, fname, lname)
             print(c)
             pass
 
@@ -283,7 +332,7 @@ class add_account_page(View):
 
         return render(request, "createAccount.html", {})
 
-    def create_account(self, user_name, password, password1, permission):
+    def create_account(self, user_name, password, password1, permission, fname, lname):
 
         try:
             name = MyUser.objects.get(user_name=user_name)
@@ -291,13 +340,13 @@ class add_account_page(View):
             if name is not None:
                 return False
         except:
-            if len(user_name) > 20 or len(password) > 20 or permission is None or password != password1:
+            if len(user_name) > 20 or len(fname) > 20 or len(lname) > 20 or len(password) > 20 or permission is None or password != password1:
                 return False
 
             if permission not in ('TA', 'Supervisor', 'Instructor'):
                 return False
 
-            new_account = MyUser(user_name=user_name, password=password, permission=permission)
+            new_account = MyUser(user_name=user_name, password=password, permission=permission, first_name=fname, last_name=lname)
             new_account.save()
             return True
 

@@ -50,14 +50,7 @@ class MyUser(models.Model):
         self.address = address
 
     def get_permission(self):
-        if self.permission == 'SUP':
-            return 'Supervisor'
-        if self.permission == 'Instructor':
-            return 'Instructor'
-
-        return 'TA'
-
-
+        return self.permission
 
 
 class course(models.Model):

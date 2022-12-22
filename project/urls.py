@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from project_app import views
 from project_app.views import login_page, landing_page, \
     add_courses_page, add_section_page, view_courses_page, \
-    view_account_page, add_account_page
+    view_account_page, add_account_page, edit_account_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +28,8 @@ urlpatterns = [
     path('createSec/', add_section_page.as_view()),
     path('createAcc/', add_account_page.as_view()),
     path('courses/', view_courses_page.as_view()),
-    path('accounts/', view_account_page.as_view())
+    path('accounts/', view_account_page.as_view()),
+    path('edit/', edit_account_page.as_view()),
+    path('courses/delete/<int:id>', views.delete_course, name='delete'),
+    path('accounts/delete/<int:id>', views.delete_account, name='delete'),
 ]

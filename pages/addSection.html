@@ -13,15 +13,15 @@
 </head>
 <body>
    <div class="page">
-{#    <div class="bg-image"#}
-{#         style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');#}
-{#                height: 100vh">#}
+    <div class="bg-image"
+         style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');
+                height: 100vh">
         <body class="text-center">
 
             <form action="/createSec/" method="post">{% csrf_token %}
 
                 <div class="container-fluid p-3 my-3 bg-warning text-dark" >
-                    <h1>Add Course</h1>
+                    <h1>Add Section</h1>
                 </div>
                 <fieldset class="div3">
                     <label for="cname"> <b>Course Name:</b></label><br>

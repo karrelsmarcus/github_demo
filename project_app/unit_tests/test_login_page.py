@@ -1,5 +1,4 @@
-import project_app.views
-from project_app.views import login_page
+from project_app.validations import validation as v
 from django.test import TestCase, Client
 from project_app.models import MyUser, course
 
@@ -10,7 +9,7 @@ class test_login(TestCase):
 
     def setUp(self):
         self.test_client = Client()
-        self.login_page = project_app.views.login_page()
+        self.login_page = v()
         temp = MyUser(user_name="jeny", password="ilovedogs", permission=MyUser.SUP)
         temp.save()
 

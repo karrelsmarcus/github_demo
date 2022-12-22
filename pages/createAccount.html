@@ -25,7 +25,7 @@ header{
 font-size: 15px;
   background-color: white;
   color: black;
-  padding: 70px;
+  padding: 90px;
   text-align: center;
   margin: auto;
   margin-top: 80px;
@@ -126,6 +126,8 @@ table{
      <form action="/createAcc/" method="post">{% csrf_token %}
      <table>
         <tr><td><input type="text" name="user_name"  id="log" placeholder="Username"></td></tr>
+        <tr><td><input type="text" name="first_name"  id="log" placeholder="First Name"></td></tr>
+         <tr><td><input type="text" name="last_name"  id="log" placeholder="Last Name"></td></tr>
         <tr><td><input type="password" name="password" id="log" placeholder="Password"></td></tr>
        <tr><td><input type="password" name="password1" id="log" placeholder="Confirm Password"></td></tr>
     </table>

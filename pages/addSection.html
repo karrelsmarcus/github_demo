@@ -21,64 +21,79 @@
             width: 500px;
         }
 
-        .page{
-            width: 100%;
-            background: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');
-            background-position:center;
-            {#background-repeat:no-repeat;#}
-            height: 1000px;
-            align-: center;
-            {#font-family: Arial, Helvetica, sans-serif;#}
-        }
-    </style>
+       <style>
+            .div3{
+                border-radius: 25px;
+                background-color: white;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                margin-left: 500px;
+                margin-right: 550px;
+                height: 350px;
+                width: 500px;
+            }
+
+            .page{
+                width: 100%;
+                background: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');
+                background-position:center;
+                {#background-repeat:no-repeat;#}
+                height: 1000px;
+                align-: center;
+                {#font-family: Arial, Helvetica, sans-serif;#}
+            }
+        </style>
 </head>
+<body>
+   <div class="page">
+{#    <div class="bg-image"#}
+{#         style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');#}
+{#                height: 100vh">#}
+        <body class="text-center">
 
-<div class="page">
-    <body>
-       <div class="page">
-        <div class="bg-image"
-             style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');
-                    height: 100vh">
-            <body class="text-center">
+            <form action="/createSec/" method="post">{% csrf_token %}
 
-                <form action="/createSec/" method="post">{% csrf_token %}
+                <div class="container-fluid p-3 my-3 bg-warning text-dark" >
+                    <h1>Add Section</h1>
+                </div>
+                <fieldset class="div3">
+                    <label for="cname"> <b>Course Name:</b></label><br>
 
-                    <div class="container-fluid p-3 my-3 bg-warning text-dark" >
-                        <h1>Add Section</h1>
-                    </div>
-                    <fieldset class="div3">
-                        <label for="cname"> <b>Section Number:</b></label><br>
+                    <input type="text" placeholder="Enter Section Number" name="snum"><br><br>
 
-                        <input type="text" placeholder="Enter Section Number" name="snum"><br><br>
+                    <label>
+                    Course
+                    <select class="form-control" name="course" id="course">
+                        {% for i in courses %}
+                            <option value="{{ i.name }}">{{ i.name }}</option>
+                        {% endfor %}
+                    </select>
+                    </label>
+                    <label>
+                    Instructor
+                    <select class="form-control" name="account" id="account">
+                        {% for i in accounts %}
+                            <option value="{{ i.user_name }}">{{ i.first_name }} {{ i.last_name }}  </option>
+                        {% endfor %}
+                    </select>
+                    </label>
 
-                        <label> <b>Course:</b>
-                        <select class="form-control" name="course" id="course">
-                            {% for i in courses %}
-                                <option value="{{ i.name }}">{{ i.name }}</option>
-                            {% endfor %}
-                        </select>
+                    <label>
+                    Start:
+                    <input name="stime" type="time"/>
 
-                        </label><br>
-                        <label><b>Instructor:</b></label>
-                        <select class="form-control" name="account" id="account">
-                            {% for i in accounts %}
-                                <option value="{{ i.user_name }}">{{ i.first_name }} {{ i.last_name }}  </option>
-                            {% endfor %}
-                        </select><br>
+                    End:
+                    <input name="etime" type="time"/>
+                    </label>
+                    <br>
 
-                        Start:
-                        <input name="stime" type="time"/>
+                    <input class="btn btn-primary" type="submit" value="Add Section" name="add">
+                    <input class="btn btn-primary" type="submit" value="back" name="back">
+                </fieldset>
 
-                        End:
-                        <input name="etime" type="time"/><br><br>
-
-                        <input class="btn btn-primary" type="submit" value="Add Section" name="add">
-                        <input class="btn btn-primary" type="submit" value="back" name="back"><br>
-                        {{ message }}
-                    </fieldset>
-                </form>
-            </body>
-        </div>
-    </body>
-</div>
+            </form>
+        </body>
+    {{ message }}
+    </div>
+</body>
 </html>

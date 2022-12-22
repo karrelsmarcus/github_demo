@@ -1,5 +1,4 @@
-import project_app.views
-from project_app.views import add_courses_page
+from project_app.course_methods import course_methods as cm
 from django.test import TestCase, Client
 from project_app.models import MyUser, course
 import unittest
@@ -13,7 +12,7 @@ class create_courses_tests(TestCase):
 
     def setUp(self):
         self.test_client = Client()
-        self.courses_page = project_app.views.add_courses_page()
+        self.courses_page = cm()
         self.sup = MyUser(user_name="test_sup", password="test_sup", permission=MyUser.SUP)
         self.sup.save()
         self.course_list = [["CS", "361", self.sup],
@@ -57,11 +56,11 @@ class create_courses_tests(TestCase):
         self.assertEqual(temp, False, msg="Should not create course with no owner")
 
 
-class get_courses_tests(TestCase):
+class get_courses_user_tests(TestCase):
 
     def setUp(self):
         self.test_client = Client()
-        self.courses_page = project_app.views.view_courses_page()
+        self.courses_page = cm()
         self.sup = MyUser(user_name="test_sup", password="test_sup", permission=MyUser.SUP)
         self.sup.save()
         self.course_list = [["CS", "361", self.sup],
@@ -71,11 +70,9 @@ class get_courses_tests(TestCase):
             course(name=i[0], number=i[1], owner=i[2]).save()
 
     def test_get_valid(self):
-        courses = self.courses_page.get_courses(self.sup)
+        courses = self.courses_page.get_courses_user(self.sup)
         self.assertEqual(type(courses), list, msg="should return list of courses")
 
     def test_get_invalid(self):
-        courses = self.courses_page.get_courses(None)
+        courses = self.courses_page.get_courses_user(None)
         self.assertEqual(courses, [], msg="invalid user should not return any courses")
-
-

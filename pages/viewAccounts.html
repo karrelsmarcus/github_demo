@@ -46,14 +46,18 @@
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
                       <th scope="col">Phone #</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for i in accounts %}
                         <tr>
-                            <td>{{ i.0 }}</td>
-                            <td>{{ i.1 }}</td>
-                            <td>{{ i.2 }}</td>
+                            <td>{{ i.first_name }} {{ i.last_name }}</td>
+                            <td>{{ i.phone }}</td>
+                            <td>{{ i.email }}</td>
+                            <td>{{ i.permission }}</td>
+                            <td> <a href="delete/{{ i.id }}">delete</a></td>
                         </tr>
                     {% endfor %}
                   </tbody>

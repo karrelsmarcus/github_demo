@@ -41,27 +41,21 @@
 {#     style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');#}
 {#          height: 100vh">#}
     <body class="text-center">
-      <form action="/create/" method="post">{% csrf_token %}
+      <form action="/edit/" method="post">{% csrf_token %}
         <div class="container-fluid p-3 my-3 bg-warning text-dark">
             <h1>Edit Account</h1>
         </div>
         <fieldset class="div3">
-            <label for="fname"> <b>First Name:</b></label><br>
-            <input type="text" placeholder="Enter First Name" name="fname"><br><br>
-            <label for="lname"> <b>Last Name:</b></label><br>
-            <input type="text" placeholder="Enter Last Name" name="lname"><br><br>
             <label for="email"> <b>Email:</b></label><br>
             <input type="text" placeholder="Enter Email" name="email"><br><br>
             <label for="pnum"> <b>Phone Number:</b></label><br>
             <input type="text" placeholder="Enter Phone Number" name="pnum"><br><br>
-            <label for="pass"> <b>Password:</b></label><br>
-            <input type="text" placeholder="Enter Password" name="pass"><br><br>
             <label for="addr"> <b>Address:</b></label><br>
             <input type="text" placeholder="Enter Address" name="addr"><br><br>
 
             <!--Change href="/home/" to delete account value//-->
             <a href="/home/" class="btn btn-danger">Delete Account</a><br><br>
-            <input class="btn btn-primary" type="submit" value="Confirm Changes">
+            <input class="btn btn-primary" type="submit" name="confirm" value="Confirm Changes">
 
             <!--Change /home/ for correct page//-->
             <a href="/home/" class="btn btn-primary">Back</a>

@@ -36,12 +36,12 @@ class test_section_page(TestCase):
                                                s_time="TR 9:30", e_time="10:20")
         self.assertFalse(sec, msg="invalid section number should return false")
 
-    def test_invalid_stime(self):
+    def test_valid_stime(self):
         sec = self.section_page.create_section(self.course, self.ins, number="801",
-                                               s_time="TR 10:0000000", e_time="10:20")
-        self.assertFalse(sec, msg="invalid start time should return false")
+                                               s_time="TR 10:00", e_time="10:20")
+        self.assertTrue(sec, msg="invalid start time should return false")
 
-    def test_invalid_etime(self):
+    def test_valid_etime(self):
         sec = self.section_page.create_section(self.course, self.ins, number="801",
-                                               s_time="TR 9:30", e_time="10:20000")
-        self.assertFalse(sec, msg="invalid end time should return false")
+                                               s_time="TR 9:30", e_time="10:20")
+        self.assertTrue(sec, msg="invalid end time should return false")

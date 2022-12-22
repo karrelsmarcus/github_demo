@@ -28,12 +28,15 @@ class test_account_page(TestCase):
         self.assertFalse(acc, msg="invalid password should return false")
 
     def test_invalid_permission(self):
-        acc = self.account_page.create_account(user_name="test", password="test", permission="ERR")
+        acc = self.account_page.create_account(user_name="test", password="test", password1="test",
+                                               fname="test", lname="test", permission="")
         self.assertFalse(acc, msg="invalid permission should return false")
 
     def test_duplicate(self):
-        self.account_page.create_account(user_name="test", password="test", permission=MyUser.INS)
-        acc = self.account_page.create_account(user_name="test", password="test", permission=MyUser.INS)
+        self.account_page.create_account(user_name="test", password="test", password1="test",
+                                         fname="test", lname="test", permission=MyUser.INS)
+        acc = self.account_page.create_account(user_name="test", password="test", password1="test",
+                                               fname="test", lname="test", permission=MyUser.INS)
         self.assertFalse(acc, msg="duplicate account should return false")
 
 
@@ -49,7 +52,7 @@ class test_get_account(TestCase):
                         ["user_1", "pass_1", "f_name_1", "l_name_1", MyUser.TA]]
 
         for i in account_list:
-            temp = MyUser(user_name=i[0], password=i[1], first_name=i[2], last_name=i[3], permission=i[7])
+            temp = MyUser(user_name=i[0], password=i[1], first_name=i[2], last_name=i[3], permission=i[4])
             temp.save()
 
     def test_get_valid(self):

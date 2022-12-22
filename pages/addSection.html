@@ -51,15 +51,15 @@
 
                         <input type="text" placeholder="Enter Section Number" name="snum"><br><br>
 
-                        <label> Course
+                        <label> <b>Course:</b>
                         <select class="form-control" name="course" id="course">
                             {% for i in courses %}
                                 <option value="{{ i.name }}">{{ i.name }}</option>
                             {% endfor %}
                         </select>
 
-                        </label>
-
+                        </label><br>
+                        <label><b>Instructor:</b></label>
                         <select class="form-control" name="account" id="account">
                             {% for i in accounts %}
                                 <option value="{{ i.user_name }}">{{ i.first_name }} {{ i.last_name }}  </option>

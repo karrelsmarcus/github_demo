@@ -49,6 +49,16 @@ class MyUser(models.Model):
     def set_address(self, address):
         self.address = address
 
+    def get_permission(self):
+        if self.permission == 'SUP':
+            return 'Supervisor'
+        if self.permission == 'Instructor':
+            return 'Instructor'
+
+        return 'TA'
+
+
+
 
 class course(models.Model):
     name = models.CharField(max_length=50)
@@ -66,14 +76,20 @@ class section(models.Model):
     course = models.ForeignKey(course, on_delete=models.DO_NOTHING)
     assignment = models.ForeignKey(MyUser, on_delete=models.DO_NOTHING)
     number = models.CharField(max_length=3)
-    starttime = models.CharField(max_length=20)
-    endtime = models.CharField(max_length=20)
+    starttime = models.CharField(max_length=10)
+    endtime = models.CharField(max_length=10)
 
     def get_course(self):
         return self.course
 
     def get_number(self):
         return self.number
+
+    def get_time(self):
+        return self.starttime + ' - ' + self.endtime
+
+    def get_assignment(self):
+        return self.assignment
 
     def set_assignment(self, user):
         self.assignment = user

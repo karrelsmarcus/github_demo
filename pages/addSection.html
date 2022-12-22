@@ -13,26 +13,49 @@
 </head>
 <body>
    <div class="page">
-{#    <div class="bg-image"#}
-{#         style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');#}
-{#                height: 100vh">#}
+    <div class="bg-image"
+         style="background-image: url('https://static01.nyt.com/images/2019/10/10/travel/10Hours-Milwaukee1/merlin_161392869_1b1fac54-25cc-471c-a800-e5ab0d07fd60-superJumbo.jpg?quality=75&auto=webp');
+                height: 100vh">
         <body class="text-center">
 
             <form action="/createSec/" method="post">{% csrf_token %}
 
                 <div class="container-fluid p-3 my-3 bg-warning text-dark" >
-                    <h1>Add Course</h1>
+                    <h1>Add Section</h1>
                 </div>
                 <fieldset class="div3">
                     <label for="cname"> <b>Course Name:</b></label><br>
-                    <input type="text" placeholder="Enter Course name" name="cname"><br><br>
-                    <label for="cnum"> <b>Course Number:</b></label><br>
+
                     <input type="text" placeholder="Enter Section Number" name="snum"><br><br>
-                    <input class="btn btn-primary" type="submit" value="Add Section">
-                    <a href="/home/" class="btn btn-primary">Back</a>
+
+                    <label> Course
+                    <select class="form-control" name="course" id="course">
+                        {% for i in courses %}
+                            <option value="{{ i.name }}">{{ i.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    </label>
+
+                    <select class="form-control" name="account" id="account">
+                        {% for i in accounts %}
+                            <option value="{{ i.user_name }}">{{ i.first_name }} {{ i.last_name }}  </option>
+                        {% endfor %}
+                    </select>
+
+                    Start:
+                    <input name="stime" type="time"/>
+
+                    End:
+                    <input name="etime" type="time"/>
+
+
                 </fieldset>
+                    <input class="btn btn-primary" type="submit" value="Add Section" name="add">
+                    <input class="btn btn-primary" type="submit" value="back" name="back">
             </form>
         </body>
+    {{ message }}
     </div>
 </body>
 </html>

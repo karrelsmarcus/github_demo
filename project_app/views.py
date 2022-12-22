@@ -47,9 +47,10 @@ class landing_page(View):
                MyUser.INS: "landingPage_instructor.html"}
 
     def get(self, request):
-        # u = MyUser.objects.get(user_name=request.session['name'])
-        # return render(request, self.options.get(u.permission), {"name": u.user_name, "user": u})
-        return render(request, "landingPage.html", {})
+        u = MyUser.objects.get(user_name=request.session['name'])
+        return render(request, "landingPage.html", {'name': u.get_name(), 'role': u.get_permission(),
+                                                    'address': u.get_address(), 'phone': u.get_phone(),
+                                                    'email': u.get_email()})
 
     def post(self, request):
         resp = request.POST.get("view_courses")
@@ -67,24 +68,26 @@ class landing_page(View):
             return redirect("/courses/")
 
 
-
 class view_courses_page(View):
 
     def get(self, request):
-        # u = MyUser.objects.get(user_name=request.session['name'])
-        # courses = self.get_courses(u)
-        # print(courses)
-        return render(request, 'viewCourse.html', {})
+        u = MyUser.objects.get(user_name=request.session['name'])
+        courses = self.get_courses(u)
+        return render(request, 'viewCourse.html', {"courses": courses})
 
     def post(self, request):
         u = MyUser.objects.get(user_name=request.session['name'])
-        resp = request.POST.get("create_course")
+        resp0 = request.POST.get("create_course")
+        resp = request.POST.get("create_section")
         resp1 = request.POST.get("back")
 
         if resp1:
             return redirect("/home/")
 
         if resp:
+            return redirect("/createSec/")
+
+        if resp0:
             return redirect("/create/")
 
     def get_courses(self, user):
@@ -97,8 +100,14 @@ class view_courses_page(View):
         """""
 
         try:
+            result = []
             courses = list(course.objects.filter(owner=user))
-            return courses
+
+            for i in courses:
+                sections = section.objects.filter(course=i)
+                for j in sections:
+                    result.append((i.get_name(), i.get_number(), j.get_number(), j.get_assignment(), j.get_time()))
+            return result
         except() as e:
             return None
 
@@ -152,14 +161,28 @@ class add_courses_page(View):
 
 class add_section_page(View):
     def get(self, request):
-        return render(request, "addSection.html", {'name': request.session['name']})
+        accounts = self.get_accounts()
+        courses = self.get_courses()
+        return render(request, "addSection.html", {'name': request.session['name'], 'accounts': accounts, 'courses': courses})
 
     def post(self, request):
-        try:
-            c = course.objects.get(request.POST.get("course"))
-            u = MyUser.objects.get()
-        except:
-            pass
+
+        resp = request.POST.get("back")
+        print(resp)
+        resp1 = request.POST.get("add")
+        print(resp1)
+
+        if resp:
+            return redirect("/courses/")
+
+        if resp1:
+            c = course.objects.get(name=request.POST.get("course"))
+            a = MyUser.objects.get(user_name=request.POST.get("account"))
+            n = request.POST.get("snum")
+            s = request.POST.get("stime")
+            e = request.POST.get("etime")
+            self.create_section(c, a, n, s, e)
+            return redirect("/createSec/")
 
     def create_section(self, course, assignment, number, s_time, e_time):
 
@@ -168,7 +191,7 @@ class add_section_page(View):
             if n is not None:
                 return False
         except:
-            if course is None or assignment is None or len(number) > 3 or len(s_time) > 20 or len(e_time) > 20:
+            if course is None or assignment is None or len(number) > 3:
                 return False
 
             new_section = section(course=course, assignment=assignment, number=number,
@@ -179,47 +202,80 @@ class add_section_page(View):
 
         return False
 
+    def get_courses(self):
+        """""Returns list of courses associated with current user
 
+        :param user: the model of the current user
+        :rtype: list
+        :return: None when no courses associated to user
+                 List of courses associated to user
+        """""
 
-class account_page(View):
-
-    def get(self, request):
-        u = MyUser.objects.get(user_name=request.session["name"])
-        a = self.get_accounts()
-        return render(request, "viewAccount.html", {'name': u.user_name, 'accounts': a})
-
-    def post(self, request):
-        resp = request.POST.get("add_account")
-        resp1 = request.POST.get("back")
-
-        if resp:
-            return redirect("/addaccount/")
-        if resp1:
-            return redirect("/home/")
+        try:
+            courses = list(course.objects.all())
+            return courses
+        except() as e:
+            return None
 
     def get_accounts(self):
         try:
+            arr = []
             accounts = list(MyUser.objects.all())
+
             return accounts
         except() as e:
             return None
 
 
-class add_account_page(View):
+class view_account_page(View):
 
     def get(self, request):
+        u = MyUser.objects.get(user_name=request.session["name"])
+        a = self.get_accounts()
+        return render(request, "viewAccounts.html", {'name': u.user_name, 'accounts': a})
 
-        return render(request, 'createAccount.html', {})
+    def post(self, request):
+        resp = request.POST.get("create_accounts")
+        resp1 = request.POST.get("back")
+
+        if resp:
+            return redirect("/createAcc/")
+        if resp1:
+            return redirect("/home/")
+
+    def get_accounts(self):
+        try:
+            result = []
+            accounts = list(MyUser.objects.all())
+            for i in accounts:
+                result.append((i.get_name(), i.get_email(), i.get_phone()))
+            return result
+        except() as e:
+            return None
+
+
+class add_account_page(View):
+    def get(self, request):
+
+        return render(request, 'createAccount.html', {"permission_choice": MyUser.user_permission})
 
     def post(self, request):
         sup = MyUser.objects.get(user_name=request.session["name"])
-        print(sup.user_name)
         resp = request.POST.get("submit")
         resp1 = request.POST.get("back")
 
         if resp:
-            # c = self.create_course(request.POST.get("cname"), request.POST.get("cnum"), sup)
-            # print(c)
+            user_name = request.POST.get("user_name")
+            print(user_name)
+            pw = request.POST.get("password")
+            print(pw)
+            pw1 = request.POST.get("password1")
+            print(pw1)
+            perm = request.POST.get("permission")
+            print(perm)
+
+            c = self.create_account(user_name, pw, pw1, perm)
+            print(c)
             pass
 
         if resp1:
@@ -227,9 +283,7 @@ class add_account_page(View):
 
         return render(request, "createAccount.html", {})
 
-
-
-    def create_account(self, user_name, password, permission, f_name="", l_name="", email="", address="", phone=""):
+    def create_account(self, user_name, password, password1, permission):
 
         try:
             name = MyUser.objects.get(user_name=user_name)
@@ -237,13 +291,13 @@ class add_account_page(View):
             if name is not None:
                 return False
         except:
-            if len(user_name) > 20 or len(password) > 20 or len(f_name) > 20 or len(l_name) or len(email) > 50 or len(address) > 50 or len(phone) > 17:
+            if len(user_name) > 20 or len(password) > 20 or permission is None or password != password1:
                 return False
 
-            if permission not in (MyUser.SUP, MyUser.INS, MyUser.TA):
+            if permission not in ('TA', 'Supervisor', 'Instructor'):
                 return False
 
-            new_account = MyUser(user_name=user_name, password=password, permission=permission, first_name=f_name, last_name=l_name, email=email, address=address, phone=phone)
+            new_account = MyUser(user_name=user_name, password=password, permission=permission)
             new_account.save()
             return True
 

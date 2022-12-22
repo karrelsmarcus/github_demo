@@ -30,6 +30,7 @@
                     <form action="/courses/" method="post">
                         {% csrf_token %}
                          <input type="submit" class="btn btn-warning" name="create_course" value="Create Course">
+                         <input type="submit" class="btn btn-warning" name="create_section" value="Create Section">
                          <input type="submit" class="btn btn-dark" name="back" value="Back">
                     </form>
                 </li>
@@ -43,15 +44,23 @@
                 <table class="table">
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col">course name</th>
-                      <th scope="col">number</th>
+                      <th scope="col">Course Name</th>
+                      <th scope="col">Course #</th>
+                      <th scope="col">Section #</th>
+                      <th scope="col">Instructor</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for i in courses %}
                         <tr>
-                            <td>{{ i.get_name }}</td>
-                            <td>{{ i.get_number }}</td>
+                            <td>{{ i.0 }}</td>
+                            <td>{{ i.1 }}</td>
+                            <td>{{ i.2 }}</td>
+                            <td>{{ i.3.first_name }} {{ i.3.last_name }}</td>
+                            <td>{{ i.4 }}</td>
+                            <td> <input type="submit" class="btn btn-dark" name="delete" value="Delete"> </td>
                         </tr>
                     {% endfor %}
                   </tbody>

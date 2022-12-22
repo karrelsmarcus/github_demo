@@ -25,8 +25,7 @@ urlpatterns = [
     path('home/', landing_page.as_view()),
     path('create/', add_courses_page.as_view()),
     path('createSec/', add_section_page.as_view()),
-    path('createAcc/',add_account_page.as_view()),
+    path('createAcc/', add_account_page.as_view()),
     path('courses/', view_courses_page.as_view()),
     path('accounts/', view_account_page.as_view())
 ]
-

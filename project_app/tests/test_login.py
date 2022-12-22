@@ -13,7 +13,7 @@ class test_login(TestCase):
             temp = MyUser(user_name=i, password=i, permission=MyUser.SUP)
             temp.save()
 
-    def test_correctname(self):
+    def test_correct_name(self):
         for i in range(5):
             resp = self.test_client.post("/", {"name": i, "password": i}, follow=True)
             self.assertTemplateUsed("landingPage.html")

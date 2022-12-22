@@ -1,6 +1,5 @@
-import project_app.views
+from project_app.course_methods import course_methods as cm
 from django.test import TestCase, Client
-from project_app.views import add_section_page
 from project_app.models import MyUser, course
 
 
@@ -8,7 +7,7 @@ class test_section_page(TestCase):
 
     def setUp(self):
         self.test_client = Client()
-        self.section_page = project_app.views.add_section_page()
+        self.section_page = cm()
         self.sup = MyUser(user_name="test_sup", password="test_sup", permission=MyUser.SUP)
         self.sup.save()
         self.ins = MyUser(user_name="test_ins", password="test_ins", permission=MyUser.INS)
